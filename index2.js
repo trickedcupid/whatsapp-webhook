@@ -25,7 +25,7 @@ app.get("/webhook", (req,res) => {
 
     if(mode && token) {
 
-        if (mode==="subscribe" && token===myToken){
+        if (mode==="subscribe" && token==='12345'){
             res.status(200).send(challenge);
         }else{
             res.status(403);
