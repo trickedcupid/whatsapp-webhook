@@ -4,7 +4,8 @@
   "description": "Webhook in node js using express framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index2.js"
   },
   "author": "Ashraf",
   "license": "ISC",
