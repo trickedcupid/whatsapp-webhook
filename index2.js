@@ -47,8 +47,6 @@ app.post('/webhook', async (req, res) => {
         // Extract relevant information from the payload
         const { from, text } = payload.entry[0].changes[0].value.messages[0];
 
-        console.log(JSON.stringify(text.body))
-
         //Send Echo to whatsapp
         await sendToWhatsApp(from, text.body);
         res.status(200).send("Message sent to WhatsApp successfully.");
@@ -58,8 +56,7 @@ app.post('/webhook', async (req, res) => {
 
         // Send the chatbot response back to WhatsApp
         await sendToWhatsApp(from, chatbotResponse);
-
-        res.status(200).send("Message received and processed successfully.");
+        // res.status(200).send("Message received and processed successfully.");
     } catch (error) {
         console.error("Error processing message:", error);
         res.status(500).send("Error processing message.");
