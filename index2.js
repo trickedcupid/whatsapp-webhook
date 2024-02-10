@@ -55,7 +55,7 @@ app.post('/webhook', async (req, res) => {
         const chatbotResponse = await forwardToChatbot(from, text.body);
 
         // Send the chatbot response back to WhatsApp
-        await sendToWhatsApp(from, chatbotResponse);
+        // await sendToWhatsApp(from, chatbotResponse);
         // res.status(200).send("Message received and processed successfully.");
     } catch (error) {
         console.error("Error processing message:", error);
@@ -104,6 +104,7 @@ async function sendToWhatsApp(recipientPhone, message) {
         };
         const response = await axios.post(`${whatsappAPIURL}/messages`, payload, { headers });
         console.log(`Message sent to ${recipientPhone} on WhatsApp: ${message}`);
+        return response.data;
     } catch (error) {
         console.error("Error sending message to WhatsApp:", error.response.data);
         throw new Error("Error sending message to WhatsApp.");
