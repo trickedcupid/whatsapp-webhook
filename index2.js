@@ -1,9 +1,14 @@
 const express = require('express');
 const axios = require('axios');
+const bodyParser = require('body-parser')
+
 require('dotenv').config()
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// To parse JSON bodies
+app.use(bodyParser.json())
 
 // Configure WhatsApp API credentials
 const API_URL = "https://graph.facebook.com/v13.0/";
@@ -36,9 +41,11 @@ app.get("/webhook", (req,res) => {
 // Endpoint to receive messages from WhatsApp
 app.post('/webhook', async (req, res) => {
     try {
-        console.log(req["body"])
+        
         const payload = req.body;
+        
         console.log(payload);
+        
         // Extract relevant information from the payload
         const { from, text } = payload.entry[0].changes[0].value.messages[0];
         
