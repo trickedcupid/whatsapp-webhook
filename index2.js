@@ -49,7 +49,7 @@ app.post('/webhook', async (req, res) => {
 
         //Send Echo to whatsapp
         await sendToWhatsApp(from, text.body);
-        res.status(200).send("Message sent to WhatsApp successfully.");
+        // res.status(200).send("Message sent to WhatsApp successfully.");
         
         // Forward the message to the chatbot
         const chatbotResponse = await forwardToChatbot(from, text.body);
