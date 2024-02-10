@@ -104,7 +104,17 @@ async function sendToWhatsApp(recipientPhone, message) {
         };
         const response = await axios.post(`${whatsappAPIURL}/messages`, payload, { headers });
         console.log(`Message sent to ${recipientPhone} on WhatsApp: ${message}`);
-        return response.data;
+        if (response.data) {
+            return {
+                success: true,
+                statusCode: 200
+            };
+            } else {
+            return {
+                success: false,
+                status: 500
+            };
+        }
     } catch (error) {
         console.error("Error sending message to WhatsApp:", error.response.data);
         throw new Error("Error sending message to WhatsApp.");
