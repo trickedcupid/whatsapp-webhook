@@ -97,13 +97,12 @@ async function forwardToChatbot(senderPhone, message) {
 // Function to send response to WhatsApp
 async function sendToWhatsApp(recipientPhone, message) {
     try {
-        console.log(message)
         const payload = {
             "messaging_product": "whatsapp",
             "to": recipientPhone,
             "type": "text",
             "text": {
-                "body": str(message)
+                "body": `${message}`
             }
         };
         const response = await axios.post(`${whatsappAPIURL}/messages`, payload, { headers });
