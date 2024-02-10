@@ -44,15 +44,13 @@ app.post('/webhook', async (req, res) => {
         
         const payload = req.body;
         
-        console.log(payload);
-        
         // Extract relevant information from the payload
         const { from, text } = payload.entry[0].changes[0].value.messages[0];
 
-        console.log(text[0])
+        console.log(JSON.stringify(text))
 
         //Send Echo to whatsapp
-        await sendToWhatsApp(from, text);
+        await sendToWhatsApp(from, JSON.stringify(text));
         
         // Forward the message to the chatbot
         const chatbotResponse = await forwardToChatbot(from, text.body);
