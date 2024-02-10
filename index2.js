@@ -37,7 +37,7 @@ app.get("/webhook", (req,res) => {
 app.post('/webhook', async (req, res) => {
     try {
         const payload = req.body;
-        
+        console.log(payload);
         // Extract relevant information from the payload
         const { from, text } = payload.entry[0].changes[0].value.messages[0];
         
