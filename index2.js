@@ -64,6 +64,7 @@ app.post('/webhook', async (req, res) => {
         res.status(200).send("Message received and processed successfully.");
         }else{
             res.status(400).send("Invalid payload received.")
+        }
     } catch (error) {
         console.error("Error processing message:", error);
         res.status(500).send("Error processing message.");
