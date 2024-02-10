@@ -47,16 +47,18 @@ app.post('/webhook', async (req, res) => {
         // Extract relevant information from the payload
         const { from, text } = payload.entry[0].changes[0].value.messages[0];
 
+        console.log(JSON.stringify(text.body))
+
         //Send Echo to whatsapp
         await sendToWhatsApp(from, text.body);
-        // res.status(200).send("Message sent to WhatsApp successfully.");
         
         // Forward the message to the chatbot
-        // const chatbotResponse = await forwardToChatbot(from, text.body);
+        const chatbotResponse = await forwardToChatbot(from, text.body);
 
         // Send the chatbot response back to WhatsApp
-        // await sendToWhatsApp(from, chatbotResponse);
-        // res.status(200).send("Message received and processed successfully.");
+        await sendToWhatsApp(from, chatbotResponse);
+
+        res.status(200).send("Message received and processed successfully.");
     } catch (error) {
         console.error("Error processing message:", error);
         res.status(500).send("Error processing message.");
@@ -64,18 +66,18 @@ app.post('/webhook', async (req, res) => {
 });
 
 // Endpoint to allow the chatbot to send messages via webhook gateway
-// app.post('/chatbot/webhook', async (req, res) => {
-//     try {
-//         const { recipientPhone, message } = req.body;
+app.post('/chatbot/webhook', async (req, res) => {
+    try {
+        const { recipientPhone, message } = req.body;
 
-//         // Send the message to WhatsApp
-//         await sendToWhatsApp(recipientPhone, message);
-//         res.status(200).send("Message sent to WhatsApp successfully.");
-//     } catch (error) {
-//         console.error("Error sending message to WhatsApp:", error);
-//         res.status(500).send("Error sending message to WhatsApp.");
-//     }
-// });
+        // Send the message to WhatsApp
+        await sendToWhatsApp(recipientPhone, message);
+        res.status(200).send("Message sent to WhatsApp successfully.");
+    } catch (error) {
+        console.error("Error sending message to WhatsApp:", error);
+        res.status(500).send("Error sending message to WhatsApp.");
+    }
+});
 
 // Function to forward message to the chatbot
 async function forwardToChatbot(senderPhone, message) {
@@ -86,7 +88,6 @@ async function forwardToChatbot(senderPhone, message) {
         const response = await axios.post(chatbotEndpoint, { senderPhone, message });
         return response.data;
     } catch (error) {
-        console.error("Error forwarding message to chatbot:", error.response.data);
         throw new Error("Error forwarding message to chatbot.");
     }
 }
@@ -104,21 +105,11 @@ async function sendToWhatsApp(recipientPhone, message) {
         };
         const response = await axios.post(`${whatsappAPIURL}/messages`, payload, { headers });
         console.log(`Message sent to ${recipientPhone} on WhatsApp: ${message}`);
-        if (response.data) {
-            return {
-                success: true,
-                statusCode: 200
-            };
-            } else {
-            return {
-                success: false,
-                status: 500
-            };
-        }
+        return response.data;
     } catch (error) {
-        console.error("Error sending message to WhatsApp:", error.response.data);
         throw new Error("Error sending message to WhatsApp.");
-    }}
+    }
+}
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
