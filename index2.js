@@ -51,7 +51,7 @@ app.post('/webhook', async (req, res) => {
 
         //Send Echo to whatsapp
         await sendToWhatsApp(from, text.body);
-        response.status(200).send("Message sent to WhatsApp successfully.");
+        res.status(200).send("Message sent to WhatsApp successfully.");
         
         // Forward the message to the chatbot
         const chatbotResponse = await forwardToChatbot(from, text.body);
@@ -110,19 +110,7 @@ async function sendToWhatsApp(recipientPhone, message) {
     } catch (error) {
         console.error("Error sending message to WhatsApp:", error.response.data);
         throw new Error("Error sending message to WhatsApp.");
-    }
-    if (response.data) {
-        return {
-            success: true,
-            statusCode: 200
-        };
-    } else {
-        return {
-            success:false,
-            statusCode: 500,
-            message: null
-        }
-}}
+    }}
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
