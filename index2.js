@@ -23,7 +23,7 @@ app.get("/webhook", (req,res) => {
     let token = req.query["hub.verify_token"];
 
 
-    if(mode && token) {
+    if(mode && token==="12345") {
 
         if (mode==="subscribe" && token==='12345'){
             res.status(200).send(challenge);
