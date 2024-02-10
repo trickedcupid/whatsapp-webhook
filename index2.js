@@ -49,7 +49,7 @@ app.post('/webhook', async (req, res) => {
         // Extract relevant information from the payload
         const { from, text } = payload.entry[0].changes[0].value.messages[0];
 
-        console.log(text.body)
+        console.log(text[0])
 
         //Send Echo to whatsapp
         await sendToWhatsApp(from, text);
