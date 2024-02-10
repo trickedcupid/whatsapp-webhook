@@ -51,6 +51,7 @@ app.post('/webhook', async (req, res) => {
 
         //Send Echo to whatsapp
         await sendToWhatsApp(from, text.body);
+        response.status(200).send("Message sent to WhatsApp successfully.");
         
         // Forward the message to the chatbot
         const chatbotResponse = await forwardToChatbot(from, text.body);
@@ -72,7 +73,6 @@ app.post('/chatbot/webhook', async (req, res) => {
 
         // Send the message to WhatsApp
         await sendToWhatsApp(recipientPhone, message);
-
         res.status(200).send("Message sent to WhatsApp successfully.");
     } catch (error) {
         console.error("Error sending message to WhatsApp:", error);
