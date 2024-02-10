@@ -36,7 +36,7 @@ app.get("/webhook", (req,res) => {
 // Endpoint to receive messages from WhatsApp
 app.post('/webhook', async (req, res) => {
     try {
-        console.log(body)
+        console.log(req)
         const payload = req.body;
         console.log(payload);
         // Extract relevant information from the payload
