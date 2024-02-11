@@ -61,10 +61,8 @@ app.post('/webhook', async (req, res) => {
             
         // Send the chatbot response back to WhatsApp
         await sendToWhatsApp(from, chatbotResponse);
-        // res.status(200).send("Message received and processed successfully.");
-        // }else{
-        //     res.status(400).send("Invalid payload received.")
-        // }
+            
+        return res.status(200).send("Message received and processed successfully.");
     } catch (error) {
         console.error("Error processing message:", error);
         res.status(500).send("Error processing message.");
@@ -135,9 +133,10 @@ async function sendToWhatsApp(recipientPhone, message) {
                 "body": `${message}`
             }
         };
-        const response = await axios.post(`${whatsappAPIURL}/messages`, payload, { headers });
+        // const response = await axios.post(`${whatsappAPIURL}/messages`, payload, { headers });
+        await axios.post(`${whatsappAPIURL}/messages`, payload, { headers });
         console.log(`Message sent to ${recipientPhone} on WhatsApp: ${message}`);
-        return response.data;
+        // return response.data;
     } catch (error) {
         throw new Error("Error sending message to WhatsApp.");
     }
