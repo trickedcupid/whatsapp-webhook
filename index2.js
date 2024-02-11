@@ -111,7 +111,7 @@ async function forwardToChatbot(senderPhone, message) {
         });
 
         console.log(JSON.stringify(response.data));
-        return JSON.stringify(response.data);
+        return response.data.response;
         
     } catch (error) {
          if (error.response) {
