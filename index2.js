@@ -110,8 +110,8 @@ async function forwardToChatbot(senderPhone, message) {
             timeout: 10000
         });
 
-        console.log(JSON.stringify(response.(data.response)));
-        return response.(data.response);
+        console.log(JSON.stringify(response.data));
+        return stringify(response.data);
         
     } catch (error) {
          if (error.response) {
