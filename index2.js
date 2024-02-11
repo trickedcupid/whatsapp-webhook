@@ -62,7 +62,7 @@ app.post("/webhook", async (req, res) => {
       const chatbotResponse = await forwardToChatbot(from, text.body);
 
       // Send the chatbot response back to WhatsApp
-      await sendToWhatsApp(from, chatbotResponse);
+      // await sendToWhatsApp(from, chatbotResponse);
 
       return res
         .status(200)
