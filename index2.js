@@ -106,7 +106,8 @@ async function forwardToChatbot(senderPhone, message) {
         const response = await axios.post('http://13.245.181.43:8000/chat', data, {
             headers: { 
                 'Content-Type': 'application/json'
-            }
+            },
+            timeout: 10000
         });
 
         console.log(JSON.stringify(response.data));
