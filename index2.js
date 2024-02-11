@@ -98,8 +98,12 @@ async function forwardToChatbot(senderPhone, message) {
     // Replace 'chatbotEndpoint' with chatbot's endpoint
     const chatbotEndpoint = 'http://13.245.181.43:8000/chat';
 
+    const payload = {
+        "message" : `$(message)`,
+        "phone_number" : `$(senderPhone)`
+    
     try {
-        const response = await axios.post(chatbotEndpoint, { message, phone_number: senderPhone });
+        const response = await axios.post(chatbotEndpoint, payload);
         console.log(response.data)
         return response.data;
     } catch (error) {
