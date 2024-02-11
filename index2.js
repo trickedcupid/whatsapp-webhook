@@ -74,11 +74,17 @@ app.post('/webhook', async (req, res) => {
 // Endpoint to allow the chatbot to send messages via webhook gateway
 app.post('/chatbot/webhook', async (req, res) => {
     try {
-        const { recipientPhone, message } = req.body;
+        const { message, phone_number } = req.body;
+
+        // Check if required fields are present in the request body
+        if (!message || !phone_number) {
+            return res.status(400).send("Invalid request. 'message' and 'phone_number' are required.");
+        }
 
         // Send the message to WhatsApp
-        await sendToWhatsApp(recipientPhone, message);
+        await sendToWhatsApp(phone_number, message);
         res.status(200).send("Message sent to WhatsApp successfully.");
+        
     } catch (error) {
         console.error("Error sending message to WhatsApp:", error);
         res.status(500).send("Error sending message to WhatsApp.");
@@ -86,16 +92,16 @@ app.post('/chatbot/webhook', async (req, res) => {
 });
 
 // Function to forward message to the chatbot
-async function forwardToChatbot(message, phone_number) {
+async function forwardToChatbot(senderPhone, message) {
     console.log(message)
     console.log(senderPhone)
     // Replace 'chatbotEndpoint' with chatbot's endpoint
     const chatbotEndpoint = 'http://13.245.181.43:8000/chat';
 
     try {
-        const response = await axios.post(chatbotEndpoint, { message, phone_number });
+        const response = await axios.post(chatbotEndpoint, { message, phone_number: senderPhone });
         console.log(response.data)
-        return response;
+        return response.data;
     } catch (error) {
         throw new Error("Error forwarding message to chatbot.");
     }
