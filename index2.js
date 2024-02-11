@@ -113,7 +113,13 @@ async function forwardToChatbot(senderPhone, message) {
         return response.data;
         
     } catch (error) {
-        console.error("Error forwarding message to chatbot:", error.response.data);
+         if (error.response) {
+            console.error("Error forwarding message to chatbot:", error.response.data);
+        } else if (error.request) {
+            console.error("No response received from chatbot server.");
+        } else {
+            console.error("Error with request:", error.message);
+        }
         throw new Error("Error forwarding message to chatbot.");
     }
 }
