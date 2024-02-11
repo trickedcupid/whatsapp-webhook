@@ -93,25 +93,30 @@ app.post('/chatbot/webhook', async (req, res) => {
 
 // Function to forward message to the chatbot
 async function forwardToChatbot(senderPhone, message) {
-    console.log(message)
-    console.log(senderPhone)
-    // Replace 'chatbotEndpoint' with chatbot's endpoint
-    const chatbotEndpoint = 'http://13.245.181.43:8000/chat';
-
-    const payload = {
-        "message" : `$(message)`,
-        "phone_number" : `$(senderPhone)`
-    }
-    
     try {
-        const response = await axios.post(chatbotEndpoint, payload);
-        console.log(response.data)
+        let data = JSON.stringify({
+            "message": message,
+            "phone_number": senderPhone
+        });
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://13.245.181.43:8000/chat',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            data : data
+        };
+
+        const response = await axios.request(config);
+        console.log(JSON.stringify(response.data));
         return response.data;
     } catch (error) {
+        console.error("Error forwarding message to chatbot:", error.response.data);
         throw new Error("Error forwarding message to chatbot.");
     }
 }
-
 // Function to send response to WhatsApp
 async function sendToWhatsApp(recipientPhone, message) {
     try {
