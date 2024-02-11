@@ -103,19 +103,15 @@ async function forwardToChatbot(senderPhone, message) {
         console.log(senderPhone)
         console.log(data)
 
-        let config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: 'http://13.245.181.43:8000/chat',
+        const response = await axios.post('http://13.245.181.43:8000/chat', data, {
             headers: { 
                 'Content-Type': 'application/json'
-            },
-            data : data
-        };
+            }
+        });
 
-        const response = await axios.request(config);
         console.log(JSON.stringify(response.data));
         return response.data;
+        
     } catch (error) {
         console.error("Error forwarding message to chatbot:", error.response.data);
         throw new Error("Error forwarding message to chatbot.");
