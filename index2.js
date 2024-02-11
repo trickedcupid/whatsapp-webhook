@@ -99,6 +99,10 @@ async function forwardToChatbot(senderPhone, message) {
             "phone_number": senderPhone
         });
 
+        console.log(message)
+        console.log(senderPhone)
+        console.log(data)
+
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
