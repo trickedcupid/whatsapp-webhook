@@ -101,6 +101,7 @@ async function forwardToChatbot(senderPhone, message) {
     const payload = {
         "message" : `$(message)`,
         "phone_number" : `$(senderPhone)`
+    }
     
     try {
         const response = await axios.post(chatbotEndpoint, payload);
