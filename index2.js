@@ -86,15 +86,16 @@ app.post('/chatbot/webhook', async (req, res) => {
 });
 
 // Function to forward message to the chatbot
-async function forwardToChatbot(senderPhone, message) {
+async function forwardToChatbot(message, phone_number) {
     console.log(message)
+    console.log(senderPhone)
     // Replace 'chatbotEndpoint' with chatbot's endpoint
     const chatbotEndpoint = 'http://13.245.181.43:8000/chat';
 
     try {
-        const response = await axios.post(chatbotEndpoint, { senderPhone, message });
-        console.log(response)
-        return response.data;
+        const response = await axios.post(chatbotEndpoint, { message, phone_number });
+        console.log(response.data)
+        return response;
     } catch (error) {
         throw new Error("Error forwarding message to chatbot.");
     }
