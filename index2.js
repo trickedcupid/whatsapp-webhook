@@ -115,24 +115,17 @@ async function forwardToChatbot(senderPhone, message) {
 // Function to send response to WhatsApp
 async function sendToWhatsApp(recipientPhone, message) {
     try {
-        let data = JSON.stringify({
-      "message": `${message}`,
-      "phone_number": `${recipientPhone}`
-        });
-
-let config = {
-  method: 'post',
-  maxBodyLength: Infinity,
-  url: 'http://13.245.181.43:8000/chat',
-  headers: { 
-    'Content-Type': 'application/json'
-  },
-  data : data
-};
-
-axios.request(config)
-.then((response) => {
-  console.log(JSON.stringify(response.data));
+        const payload = {
+            "messaging_product": "whatsapp",
+            "to": recipientPhone,
+            "type": "text",
+            "text": {
+                "body": `${message}`
+            }
+        };
+        const response = await axios.post(`${whatsappAPIURL}/messages`, payload, { headers });
+        console.log(`Message sent to ${recipientPhone} on WhatsApp: ${message}`);
+        return response.data;
     } catch (error) {
         throw new Error("Error sending message to WhatsApp.");
     }
