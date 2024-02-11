@@ -74,15 +74,15 @@ app.post('/webhook', async (req, res) => {
 // Endpoint to allow the chatbot to send messages via webhook gateway
 app.post('/chatbot/webhook', async (req, res) => {
     try {
-        const { message, phone_number } = req.body;
+        const { message, recipientPhone } = req.body;
 
         // Check if required fields are present in the request body
-        if (!message || !phone_number) {
-            return res.status(400).send("Invalid request. 'message' and 'phone_number' are required.");
+        if (!message || !recipientPhone) {
+            return res.status(400).send("Invalid request. 'message' and 'recipientPhone' are required.");
         }
 
         // Send the message to WhatsApp
-        await sendToWhatsApp(phone_number, message);
+        await sendToWhatsApp(recipientPhone, message);
         res.status(200).send("Message sent to WhatsApp successfully.");
         
     } catch (error) {
@@ -110,8 +110,8 @@ async function forwardToChatbot(senderPhone, message) {
             timeout: 10000
         });
 
-        console.log(JSON.stringify(response.data));
-        return response.data;
+        console.log(JSON.stringify(response.(data.response)));
+        return response.(data.response);
         
     } catch (error) {
          if (error.response) {
